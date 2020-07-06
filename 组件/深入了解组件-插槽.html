@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<component1 url="/profile">
+				hahah
+				<!-- 这里是插槽内容 设置可以是其他组件 -->
+			</component1>
+			<br>
+			<!-- 插槽后备内容 -->
+			<component2></component2>
+			<!-- 默认渲染为submit -->
+			<component2>Save</component2>
+			<!-- 渲染为save -->
+			<br>
+			<!-- 具名插槽  缩写#号-->
+			<base-layout>
+				<template v-slot:header>
+					1111
+				</template>
+				<p>222333</p>
+				<template v-slot:footer>
+					footerrr
+				</template>
+			</base-layout>
+			<br>
+			<!-- 作用域插槽 -->
+			<current-user v-slot="slotprops">
+				{{slotprops.user.firstName}}
+			</current-user>
+			<!-- 通过slotprops拿到子组件插槽v-bind绑定的值 -->
+		</div>
+		<script type="text/javascript">
+			//插槽内容&&插槽作用域
+			Vue.component('component1',{
+				template:`
+				<a v-bind:href="url" class="nav-link">
+				<slot></slot>
+				</a>
+				`,
+				data:function(){
+					return {
+						url:'/aaa' ,//如果这边不定义，那么渲染出来就是undefined
+						// 父级模板里的所有内容都是在父级作用域中编译的；
+						// 子模板里的所有内容都是在子作用域中编译的。
+					}
+				}
+			});
+			//插槽后备内容
+			Vue.component('component2',{
+				template:`
+				<button>
+				<slot>Submit</slot>
+				</button>
+				`
+			});
+			//具名插槽 在一个组件中有多个插槽的时候,为了区分插槽的位置
+			Vue.component('base-layout',{
+				template:`
+				<div>
+					<header>
+						<slot name="header"></slot>
+					</header>
+					<main>
+						<slot></slot>
+					</main>
+					<footer>
+						<slot name="footer"></slot>
+					</footer>
+				</div>
+				`
+			})
+			Vue.component('current-user',{
+				template:`
+				<span>
+				<slot v-bind:user="user">{{user.lastName}}</slot>
+				</span>
+				`,
+				data:function(){
+					return {
+						user:{
+							firstName:'yang',
+							lastName:'zhengdong'
+						},
+					}
+				}
+			})
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

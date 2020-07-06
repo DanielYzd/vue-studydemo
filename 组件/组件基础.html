@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<button-counter title="title111 : " @clicknow="clickNow"></button-counter>
+			<button-counter title="title222 : "></button-counter>
+			<button-counter title="title333 : "></button-counter>
+			<!-- 组件复用，组件有自己的作用域 -->
+			
+		</div>
+		<script type="text/javascript">
+			// Vue.component()函数
+			Vue.component('button-counter',{
+				props:['title'],
+				//一个组件的 data 选项必须是一个函数，因此每个实例可以维护一份被返回对象的独立的拷贝
+				data:function(){
+					return {
+						count:0
+					}
+				},
+				//组件必须只有一个跟节点
+				template:'<div><h1>hi...</h1><button v-on:click="countfun">{{title}}你点击了我{{count}}次</button></div>',
+				methods:{
+					countfun:function(){
+						this.count++
+						//通过emit将点击事件传给父组件
+						this.$emit('clicknow',this.count)
+					}
+				}
+			})
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					
+				},
+				methods:{
+					clickNow:function(e){
+						console.log(e)
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

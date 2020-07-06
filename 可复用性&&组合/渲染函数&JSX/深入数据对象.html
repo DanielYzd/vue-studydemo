@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.foo{
+				color:red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- <component1></component1> -->
+			<component2 content="fjklfjksldfjkl"></component2>
+		</div>
+		<script type="text/javascript">
+			// createElement接收的参数
+			// 1.一个THML标签名字/组件或选项对象或者resolve上述任何一种async函数
+			// 2.数据对象
+			// 3.子节点数组或者字符串
+			// Vue.component('component1', {
+			// 	render: function(createElement) {
+			// 		return createElement('div', {
+			// 			//开始深入数据对象
+			// 			'class':{
+			// 				foo:true,
+			// 				bar:false
+			// 			},
+			// 			'style':{
+			// 				fontSize:'18px',
+			// 				color:'blue'
+			// 			},
+			// 			//普通HTML属性
+			// 			attrs:{
+			// 				id:'parent'
+			// 			},
+			// 			props:{
+			// 				content:'1111'
+			// 			},
+			// 			// domProps:{
+			// 			// 	innerHtml:'baz'
+			// 			// },
+			// 			on:{
+			// 				click:this.clickHandler
+			// 			},
+						
+			// 		},
+			// 			[
+			// 				createElement('component2'),
+			// 				createElement('h1','222222')
+			// 			]
+			// 		)
+			// 	},
+			// 	data:function(){
+			// 		return {
+			// 			test:11111
+			// 		}
+			// 	},
+			// 	methods:{
+			// 		clickHandler:function(){
+			// 			console.log(this.$refs.child)
+			// 		},
+					
+			// 	}
+			// })
+			Vue.component('component2',{
+				
+				render:function(createElement){
+					return createElement('div',{
+						'class':{
+							color:'red'
+						},
+						'style':{
+							fontSize:'20px'
+						},
+						attrs:{
+							id:'child'
+						},
+						domProps:{
+							innerHtml:'baz'
+						},
+						ref:'child',
+					},this.content)
+				},
+				props:{
+					content:{
+						type:String,
+						required:true
+					}
+				}
+			})
+			var vm = new Vue({
+				el: "#app",
+
+			})
+		</script>
+	</body>
+</html>

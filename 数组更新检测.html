@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<!-- 支持视图更新的方法包括：
+		push(),pop(),shift(),unshift(),splice(),sort(),reverse（） -->
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<div v-for="(item,index) in arr"  :key="index">
+				{{item}}
+			</div>
+			<button type="button" v-on:click="push">push</button>
+			<button type="button" v-on:click="pop">pop</button>
+			<button type="button" v-on:click="shift">shift</button>
+			<button type="button" v-on:click="unshift">unshit</button>
+			<button type="button" v-on:click="splice">splice</button>
+			<button type="button" v-on:click="splice1">splice1</button>
+			<button type="button" v-on:click="sort">sort</button>
+			<button type="button" v-on:click="reverse">reverse</button>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					arr:[1,2,4,5,6,9,8,7]
+				},
+				methods:{
+					push:function(){
+						//原数组最后添加一个元素，返回新的长度
+						let a = this.arr.push(1)
+						console.log(a)
+					},
+					pop:function(){
+						//删除原数组最后一个值并返回新的长度
+						let a = this.arr.pop()
+						console.log(a)
+					},
+					shift:function(){
+						//删除原数组第一个元素，并返回被删除第一个元素的值
+						let a = this.arr.shift()
+						console.log(a)
+					},
+					unshift:function(){
+						//在数组开头添加一个元素，并返回新的长度
+						let a = this.arr.unshift(111)
+						console.log(a)
+					},
+					splice:function(){
+						//从0开始删除两位，返回删除的元素数组
+						let a = this.arr.splice(0,2)
+						console.log(a)//[1,2]
+					},
+					splice1:function(){
+						//从索引1位置开始，添加一个元素‘aaa’,返回空数组
+						//如果第二个参数设置2，则先删除两个元素，再添加新的元素
+						// let a = this.arr.splice(1,0,'aaa')
+						// console.log(a)//[]
+						let a = this.arr.splice(1,2,'aaa')
+						console.log(a)//[2，4]
+					},
+					sort:function(){
+						//对数组元素排序
+						let a = this.arr.sort()
+						console.log(a)//【1，2，4，5，6，7，8，9】
+					},
+					reverse:function(){
+						let a = this.arr.reverse()
+						console.log(a)//[7,8,9,6,5,4,2,1]
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

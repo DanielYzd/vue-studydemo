@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<p v-if="seen">现在你看到我了</p>
+			<a v-bind:href="url">...</a>
+			<a v-on:[eventname]="dosomething">...</a>
+			<a v-bind:[aaa]="url">动态参数</a>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					seen: true,
+					url:'https://cn.vuejs.org/v2/guide/syntax.html',
+					aaa:'href',
+					eventname:'click'
+				},
+				methods:{
+					dosomething(){
+						console.log(111)
+					}
+				}
+			})
+		</script>
+	</body>
+	
+</html>

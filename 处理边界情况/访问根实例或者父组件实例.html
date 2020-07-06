@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			{{foo}}
+			<component-a></component-a>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					foo: 1
+				},
+				computed: {
+					bar: function() {
+						return this.foo + 1
+					}
+				},
+				methods: {
+					baz:function(){
+						console.log(111+'baz method')
+					}
+				},
+				components:{
+					//所有子组件都可以将这个实例作为一个全局store来访问或者使用
+					//所有子组件可以使用$parent属性访问父组件的实例
+					'component-a':{
+						template:`<button @click="test">测试</button>`,
+						methods:{
+							test:function(){
+								//获取跟组件数据
+								console.log(this.$root.foo)
+								//写入根组件的数据
+								this.$root.foo=20
+								//访问根组件的计算属性
+								console.log(this.$root.bar)
+								// 调用根组件的方法
+								this.$root.baz()
+							}
+						}
+					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

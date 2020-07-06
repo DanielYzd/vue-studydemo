@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		 <script src="https://unpkg.com/pikaday@1.7.0"></script>
+		 <script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="date" v-model="date" ref="dateInput" />
+		</div>
+		<script type="text/javascript">
+			new Vue({
+				el:'#app',
+				data:{
+					date:null
+				},
+				mounted:function(){
+					var picker = new Pikaday({
+						field:this.$refs.dateInput,
+						format:'YYYY-MM-DD'
+					})
+					this.$once("hook:updated",function(){
+						console.log('我已经更新啦')
+					})
+					//比直接在生命周期函数中写 要高大上
+					this.$once("hook:beforeDestroy",function(){
+						console.log(111)
+						picker.destory();
+					})
+				}
+			})
+		</script>
+	</body>
+</html>

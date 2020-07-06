@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+	</head>
+	<body>
+		<div id="watch-example">
+			<p>
+				Ask a yes/no question:
+				<input v-model="question">
+			</p>
+			<p>{{ answer }}</p>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#watch-example',
+				data: {
+					question: '',
+					answer: 'I cannot give you an answer until you ask a question!'
+				},
+				// watch: {
+				// 	question: function(newVal) {
+				// 		this.answer = 'Waiting for you to stop typing...'
+				// 		this.debouncedGetAnswer()
+				// 	}
+				// },
+				created: function() {
+					//这边用了函数防抖，防止频繁请求
+					this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+				},
+				methods: {
+					getAnswer: function() {
+						if (this.question.indexOf('?') === -1) {
+							this.answer = 'Questions usually contain a question mark. ;-)'
+							return
+						}
+						this.answer = 'Thinking...'
+						var vm = this
+						axios.get('https://yesno.wtf/api')
+							.then(function(response) {
+								vm.answer = _.capitalize(response.data.answer)
+							})
+							.catch(function(error) {
+								vm.answer = 'Error! Could not reach the API. ' + error
+							})
+					}
+				}
+			})
+			//改用watchAPI 
+			vm.$watch('question',function(newVal,oldVal){
+				console.log(newVal)
+				this.answer = 'Waiting for you to stop typing...'
+				this.debouncedGetAnswer()
+			},{
+				immediate:true
+			})
+			
+		</script>
+	</body>
+</html>

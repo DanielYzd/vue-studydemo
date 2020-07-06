@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.tab-button{
+				padding:6px 10px;
+				border-top-left-radius: 3px;
+				bordet-top-right-radius:3px;
+				border:1px solid #ccc;
+				cursor: pointer;
+				background: #f0f0f0;
+				margin-bottom: -1px;
+				margin-right:-1px;
+			}
+			.tab-button:hover{
+				background:#e0e0e0;
+			}
+			.tab-button .active{
+				background:#e0e0e0;
+			}
+			.tab{
+				border: 1px solid #ccc;
+				padding:10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button
+			v-for="tab in tabs" 
+			v-bind:key="tab"
+			v-bind:class="['tab-button',{active: currentTab===tab}]"
+			 v-on:click="currentTab=tab">{{tab}}</button>
+			<component v-bind:is="currentTabComponent" class="tab"></component>
+		</div>
+		<script type="text/javascript">
+			Vue.component('component1', {
+				template: '<div>component1</div>'
+			});
+			Vue.component('component2', {
+				template: '<div>component2</div>'
+			});
+			Vue.component('component3', {
+				template: '<div>component3</div>'
+			});
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					currentTab: "component1",
+					tabs: ['component1', 'component2', 'component3']
+				},
+				computed: {
+					currentTabComponent: function() {
+						return this.currentTab
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

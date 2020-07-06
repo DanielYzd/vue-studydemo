@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<p>{{message}}</p>
+			<p>{{reversemessage}}</p>
+			<p>通过函数表达式实现:{{reversemessage2()}}</p>
+			<p>{{test}}</p>
+		</div>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					message:'abcdef',
+					test:'111'
+				},
+				//计算属性随着依赖属性变化，会自动更新视图
+				//计算属性依赖响应式进行缓存的，如果message没有变化，就不必去执行函数
+				computed:{
+					reversemessage:function(){
+						return this.message.split('').reverse().join('')
+					}
+				},
+				//每当渲染时，总会执行函数,即时message没有发生变化，也会去执行函数
+				methods:{
+					reversemessage2:function(){
+						console.log(222)
+						return this.message.split('').reverse().join('')
+					}
+				}
+			})
+			// setTimeout(()=>{
+			// 	vm.message="hjkjhaad"
+			// },2000)
+			setTimeout(()=>{
+				vm.test="ddall"
+			},3000)
+		</script>
+	</body>
+</html>

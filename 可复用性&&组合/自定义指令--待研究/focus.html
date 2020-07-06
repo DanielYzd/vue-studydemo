@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" placeholder="我是全局自定义指令" v-focus>
+			<input type="text" placeholder="我是局部自定义指令" v-focus2>
+		</div>
+		<script type="text/javascript">
+			Vue.directive('focus',{
+				inserted:function(el){
+					console.log(el)
+					el.focus()
+				}
+			})
+			new Vue({
+				el:"#app",
+				directives:{
+					focus2:{
+						inserted:function(el){
+							el.focus();
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

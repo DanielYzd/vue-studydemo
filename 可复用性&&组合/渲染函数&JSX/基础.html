@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<blog-post>
+				<template #header>
+					<h1>header</h1>
+				</template>
+				<h2>main...</h2>
+				<template #footer>
+					<h1>footer</h1>
+				</template>
+				<span>2222</span>
+			</blog-post>
+			<anchored-heading :level="1">1111</anchored-heading>
+		</div>
+		<script type="text/javascript">
+			Vue.component('blog-post',{
+				render:function(createElement){
+					return createElement('div',[
+						createElement('header',this.$slots.header),
+						createElement('main',this.$slots.default),
+						createElement('footer',this.$slots.footer)
+					])
+				}
+			})
+			Vue.component('anchored-heading',{
+				render:function(createElement){
+					return createElement(
+					'h' + this.level,
+					this.$slots.default
+					)
+				},
+				props:{
+					level:{
+						type:Number,
+						required:true
+					}
+				}
+			})
+			var vm = new Vue({
+				el:'#app'
+			})
+		</script>
+	</body>
+</html>

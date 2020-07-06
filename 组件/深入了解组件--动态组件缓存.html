@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.tab-button{
+				padding:6px 10px;
+				border-top-left-radius: 3px;
+				bordet-top-right-radius:3px;
+				border:1px solid #ccc;
+				cursor: pointer;
+				background: #f0f0f0;
+				margin-bottom: -1px;
+				margin-right:-1px;
+			}
+			.tab-button:hover{
+				background:#e0e0e0;
+			}
+			.tab-button .active{
+				background:#e0e0e0;
+			}
+			.tab{
+				border: 1px solid #ccc;
+				padding:10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<button
+			v-for="tab in tabs" 
+			v-bind:key="tab"
+			v-bind:class="['tab-button',{active: currentTab===tab}]"
+			 v-on:click="currentTab=tab">{{tab}}</button>
+			 <!-- 注意这个 <keep-alive> 要求被切换到的组件都有自己的名字，不论是通过组件的 name 选项还是局部/全局注册。 -->
+			 <keep-alive>
+					<component v-bind:is="currentTabComponent" class="tab"></component>
+			 </keep-alive>
+		</div>
+		<script type="text/javascript">
+			Vue.component('component1', {
+				template: `<div><div>{{text}}</div>
+				<button v-on:click="read">阅读</button></div>`,
+				data:function(){
+					return {
+						text:'1111'
+					}
+				},
+				methods:{
+					read:function(){
+						console.log(this.$data.text="开始阅读")
+					}
+				}
+			});
+			Vue.component('component2', {
+				template: '<div>component2</div>'
+			});
+			Vue.component('component3', {
+				template: '<div>component3</div>'
+			});
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					currentTab: "component1",
+					tabs: ['component1', 'component2', 'component3']
+				},
+				computed: {
+					currentTabComponent: function() {
+						return this.currentTab
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

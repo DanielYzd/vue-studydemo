@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.sub{
+				padding-left: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<Menu>
+				<template v-for="menu in menuList">
+					<menu-item :key="menu.title" v-if="!menu.children">{{menu.title}}</menu-item>
+					<sub-menu v-else>
+						<template #title>{{menu.title}}</template>
+						<template v-for="child in menu.children"> 
+							<menu-item>{{child.title}}</menu-item>
+						</template>
+					</sub-menu>
+				</template>
+			</Menu>
+		</div>
+		<script type="text/javascript">
+			//Menu 组件
+			Vue.component('Menu',{
+				template:`
+				<ul>
+					<slot></slot>
+				</ul>
+				`
+			})
+			//MenuItem 组件
+			Vue.component('MenuItem',{
+				template:`
+				<li>
+					<slot></slot>
+				</li>
+				`
+			})
+			// SubMenu
+			Vue.component('SubMenu',{
+				template:`
+				<div>
+					<li class="title" v-on:click="change">
+						<slot name="title"></slot>
+					</li>
+					<div class="sub" v-show="flag">
+						<slot></slot>
+					</div>
+				</div>
+				`,
+				data:function(){
+					return {
+						flag:false
+					}
+				},
+				methods:{
+					change:function(){
+						this.flag=!this.flag
+					}
+				}
+			})
+			var vm = new Vue({
+				el: "#app",
+				data: {
+					menuList: [{
+							title: '菜单1',
+							children: [{
+									title: '菜单1-1',
+									children: [{
+											title: '菜单1-1-1'
+										},
+										{
+											title: '菜单1-1-2'
+										},
+										{
+											title: '菜单1-1-3'
+										}
+									]
+								},
+								{
+									title: '菜单1-2'
+								},
+								{
+									title: '菜单1-3'
+								}
+							]
+						},
+						{
+							title: '菜单2'
+						},
+						{
+							title: '菜单3'
+						}
+					]
+				}
+			})
+		</script>
+	</body>
+</html>

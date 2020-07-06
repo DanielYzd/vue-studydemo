@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<global-component></global-component>
+			<test></test>
+		</div>
+		<div id="app2">
+			<global-component></global-component>
+			<test2></test2>
+		</div>
+		<script type="text/javascript">
+			//使用Vue.component注册的组件是全局
+			//局部组件用普通js对象来定义，然后再new Vue中components对象中定义想用的组件
+			Vue.component('globalComponent',{
+				data:function(){
+					return {
+						
+					}
+				},
+					template:'<h1>全局组件</h1>'
+			
+			})
+			var vm = new Vue({
+				el:'#app',
+				components:{
+					test:{
+						template:'<h2>局部组件</h2>'
+					}
+				}
+			})
+			var componentB ={
+				template:'<h2>局部组件2</h2>'
+			}
+			var vm2 = new Vue({
+				el:'#app2',
+				components:{
+					'test2':componentB
+				}
+			})
+		</script>
+	</body>
+</html>

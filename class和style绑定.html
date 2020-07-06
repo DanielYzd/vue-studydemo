@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 普通语法 -->
+			<div v-bind:class="aaa"></div>
+			<!-- 渲染为<div class="putong"></div> -->
+			
+			<!-- 对象语法 -->
+			<div v-bind:class="{obj:isobj}"></div>
+			<!-- 渲染为<div class="obj"></div> -->
+			
+			<!-- 多个对象 -->
+			<div v-bind:class="{obj1:isobj1,obj2:isobj2}"></div>
+			<!-- 渲染为<div class="obj1"></div> -->
+			
+			<!-- 多个对象 不定义在模板内 -->
+			<div v-bind:class="classObject"></div>
+			<!-- 渲染为<div class="active text-danger"></div> -->
+			
+			<!-- 数组语法 -->
+			<div v-bind:class="[activeClass,errorClass]"></div>
+			<!-- 渲染为<div class="active text-danger"></div> -->
+			
+			<!-- 数组语法使用对象 -->
+			<div v-bind:class="[{active: isActive},errorClass]"></div>
+			<!-- 渲染为<div class="active text-danger"></div> -->
+			
+			<my-component class="baz boo"></my-component>
+			<!-- <p class="foo bar baz boo">Hi</p> -->
+			
+			<my-component v-bind:class="{active:isActive}"></my-component>
+			<!-- <p class="foo bar active"></p> -->
+			
+			<div v-bind:style="{color:activeColor,fontSize:fontSize + 'px'}">111</div>
+			
+			<div v-bind:style="styleObject">222</div>
+			
+		</div>
+		<script type="text/javascript">
+			Vue.component('my-component',{
+				template:'<p class="foo bar">Hi</p>'
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					aaa: 'putong',
+					isobj: true,
+					isobj1:true,
+					isobj2:false,
+					classObject:{
+						active:true,
+						'text-danger':true
+					},//可以改为computed
+					activeClass:'active',
+					errorClass:'text-danger',
+					isActive:true,
+					
+					activeColor:'red',
+					fontSize:'16',
+					
+					styleObject: {
+					    color: 'red',
+					    fontSize: '13px'
+					  }
+				},
+			})
+			
+		</script>
+	</body>
+</html>

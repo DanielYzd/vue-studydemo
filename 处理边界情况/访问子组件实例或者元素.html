@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<parent>
+			</parent>
+		</div>
+		<script type="text/javascript">
+			Vue.component('parent', {
+				template: `<div>
+				<child ref="childId"></child>
+				<button @click="test">父组件通过ref调用子组件实例</button>
+				</div>`,
+				data: function() {
+					return {
+						parentdata: 11111
+					}
+				},
+				methods: {
+					parentmethod: function() {
+						console.log('parentmethod 被触发')
+					},
+					test: function() {
+						console.log(this.$refs.childId)
+						console.log(this.$refs.childId.childdata)
+						this.$refs.childId.childmethod()
+					}
+				}
+			})
+			Vue.component('child', {
+				template: '<div>child</div>',
+				data: function() {
+					return {
+						childdata: 2222
+					}
+				},
+				methods: {
+					childmethod: function() {
+						console.log('您在调用子组件的方法')
+					}
+				}
+			})
+			var vm = new Vue({
+				el: '#app',
+				data: {
+
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- vue允许以一个工厂函数方式定义组件，这个工厂函数异步解析组件定义，vue只有在这个组件需要被渲染
+ 的时候才会触发该工厂函数，且会把结果缓存起来供未来重新渲染-->
+ <!-- 工厂函数
+  标准是一个函数，用来创建对象，并将传递参数作为属性附加到该对象上面返回一个新对象
+  为什么使用import能实现路由懒加载
+  1.import是编译时调用，require是运行时调用，页面走到import时候才会执行编译执行了加载组件
+  2.import 会返回一个promise对象，他是异步的
+  -->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="vue.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="app">
+			<async-component></async-component>
+		</div>
+		<script type="text/javascript">
+			Vue.component('async-component',function(resolve,reject){
+				setTimeout(function(){
+					resolve({
+						template:'<div>I am async!</div>'
+					})
+				},1000)
+			})
+			var vm = new Vue({
+				el:'#app',
+				data:{
+					
+				},
+				comments:{
+					'my-component': ()=>import('./my-async-componet')
+				}
+			})
+		</script>
+	</body>
+</html>
